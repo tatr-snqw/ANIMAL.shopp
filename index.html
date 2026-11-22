@@ -1,0 +1,1534 @@
+<!DOCTYPE html>
+<html lang="ru" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ANIMAL.shop — Приобретение любых домашних животных</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Шрифты Plus Jakarta Sans и Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <!-- Иконки Lucide -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        cream: {
+                            50: '#FCFBF9',
+                            100: '#F6F3EE',
+                            200: '#EAE4DA',
+                            300: '#D8CFC0',
+                            800: '#453F36',
+                            900: '#24201B',
+                        },
+                        coral: {
+                            50: '#FFF5F2',
+                            100: '#FFE6DF',
+                            500: '#E56343',
+                            600: '#CC4E2F',
+                            700: '#A83C21',
+                        },
+                        emerald: {
+                            50: '#F2F8F5',
+                            100: '#E0EFE7',
+                            600: '#3A7D5C',
+                            700: '#2D6348',
+                        }
+                    },
+                    boxShadow: {
+                        'soft': '0 12px 36px -8px rgba(36, 32, 27, 0.08)',
+                        'card': '0 4px 20px -2px rgba(36, 32, 27, 0.05)',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-cream-50 text-cream-900 font-sans antialiased selection:bg-coral-100 selection:text-coral-700 overflow-x-hidden">
+
+    <!-- Верхняя панель с телефоном для приобретения и переключателем языков -->
+    <div class="bg-cream-900 text-cream-100 text-xs sm:text-sm py-2.5 border-b border-cream-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-wrap items-center justify-between gap-2">
+            <div class="flex items-center gap-4">
+                <a href="tel:+77008889900" class="inline-flex items-center gap-2 font-semibold text-white hover:text-coral-400 transition-colors">
+                    <i data-lucide="phone-call" class="w-4 h-4 text-coral-500"></i>
+                    <span>+7 (700) 888-99-00</span>
+                </a>
+                <button type="button" onclick="copyPhoneNumber()" class="hidden sm:inline-flex items-center gap-1 text-xs text-cream-300 hover:text-white underline transition-colors" data-i18n="copyPhone">
+                    Скопировать номер
+                </button>
+                <span class="hidden md:inline text-cream-300/70" data-i18n="topSchedule">Отдел продаж и консультаций: 09:00 – 21:00</span>
+            </div>
+
+            <!-- Переключатель языков RU / KZ / EN -->
+            <div class="flex items-center gap-1 bg-cream-800/80 p-1 rounded-lg" role="group" aria-label="Language switcher">
+                <button type="button" onclick="setLanguage('ru')" data-lang="ru" class="lang-btn px-2.5 py-1 rounded-md text-xs font-bold transition-all bg-coral-500 text-white">RU</button>
+                <button type="button" onclick="setLanguage('kz')" data-lang="kz" class="lang-btn px-2.5 py-1 rounded-md text-xs font-bold transition-all text-cream-200 hover:text-white">KZ</button>
+                <button type="button" onclick="setLanguage('en')" data-lang="en" class="lang-btn px-2.5 py-1 rounded-md text-xs font-bold transition-all text-cream-200 hover:text-white">EN</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Основная навигационная панель -->
+    <header class="sticky top-0 z-40 bg-cream-50/95 backdrop-blur-md border-b border-cream-200/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Логотип ANIMAL.shop -->
+                <a href="#" class="flex items-center gap-3 group focus:outline-none">
+                    <div class="w-11 h-11 rounded-2xl bg-coral-500 text-white flex items-center justify-center shadow-sm group-hover:bg-coral-600 transition-colors">
+                        <i data-lucide="paw-print" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <span class="font-display font-extrabold text-xl sm:text-2xl tracking-tight text-cream-900 block leading-none">
+                            ANIMAL<span class="text-coral-500">.shop</span>
+                        </span>
+                        <span class="text-xs text-cream-800/70 font-medium" data-i18n="logoSub">любые домашние питомцы</span>
+                    </div>
+                </a>
+
+                <!-- Десктопное меню -->
+                <nav class="hidden lg:flex items-center gap-7">
+                    <a href="#catalog" class="text-sm font-semibold text-cream-800 hover:text-coral-600 transition-colors" data-i18n="navCatalog">Каталог животных</a>
+                    <a href="#ai-advisor" class="text-sm font-semibold text-coral-600 hover:text-coral-700 inline-flex items-center gap-1.5 transition-colors">
+                        <i data-lucide="sparkles" class="w-4 h-4"></i>
+                        <span data-i18n="navAi">ИИ-подбор питомца</span>
+                    </a>
+                    <a href="#contact-buy" class="text-sm font-semibold text-cream-800 hover:text-coral-600 transition-colors" data-i18n="navContacts">Номер для покупки</a>
+                </nav>
+
+                <!-- Кнопки действий -->
+                <div class="flex items-center gap-2 sm:gap-3">
+                    <!-- Кнопка ИИ-помощника для мобильных/планшетов -->
+                    <a href="#ai-advisor" class="lg:hidden p-2.5 rounded-xl bg-coral-50 border border-coral-100 text-coral-600 font-semibold text-sm flex items-center gap-1.5" aria-label="ИИ-подбор">
+                        <i data-lucide="sparkles" class="w-4 h-4"></i>
+                        <span class="hidden sm:inline text-xs font-bold">AI</span>
+                    </a>
+
+                    <!-- Избранное -->
+                    <button id="open-favorites-btn" type="button" class="relative p-2.5 sm:px-4 sm:py-2.5 rounded-xl bg-white border border-cream-200 hover:border-coral-300 text-cream-900 font-semibold text-sm flex items-center gap-2 transition-all shadow-sm active:scale-95">
+                        <i data-lucide="heart" class="w-4 h-4 text-coral-500"></i>
+                        <span class="hidden sm:inline" data-i18n="btnFavorites">Избранное</span>
+                        <span id="favorites-count" class="inline-flex items-center justify-center min-w-[22px] h-5 px-1.5 text-xs font-bold rounded-full bg-coral-100 text-coral-700">0</span>
+                    </button>
+
+                    <!-- Мои заказы -->
+                    <button id="open-orders-btn" type="button" class="p-2.5 sm:px-4 sm:py-2.5 rounded-xl bg-cream-900 hover:bg-cream-800 text-white font-semibold text-sm flex items-center gap-2 transition-all shadow-sm active:scale-95">
+                        <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+                        <span class="hidden sm:inline" data-i18n="btnOrders">Покупки</span>
+                        <span id="orders-count" class="hidden inline-flex items-center justify-center min-w-[22px] h-5 px-1.5 text-xs font-bold rounded-full bg-coral-500 text-white">0</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Первый экран (Hero Section) -->
+    <section class="relative pt-10 pb-16 sm:pt-14 sm:pb-20 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+                <!-- Левая текстовая колонка -->
+                <div class="lg:col-span-6 space-y-6">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-100 text-emerald-700 text-xs sm:text-sm font-semibold">
+                        <span class="w-2 h-2 rounded-full bg-emerald-600"></span>
+                        <span data-i18n="heroBadge">От пушистых котят до экзотических хамелеонов</span>
+                    </div>
+                    
+                    <h1 class="font-display font-extrabold text-3xl sm:text-5xl lg:text-[52px] text-cream-900 leading-[1.15] tracking-tight" data-i18n="heroTitle">
+                        Найдите идеального питомца для вашей жизни
+                    </h1>
+                    
+                    <p class="text-base sm:text-lg text-cream-800/85 leading-relaxed max-w-xl" data-i18n="heroDesc">
+                        В ANIMAL.shop представлены здоровые домашние животные любых видов с паспортом, указанием имени, породы, пола и возраста. Не знаете, кого выбрать? Наш встроенный ИИ-консультант подберет друга под ваш ритм жизни.
+                    </p>
+                    
+                    <div class="flex flex-col sm:flex-row gap-3.5 pt-2">
+                        <a href="#catalog" class="inline-flex justify-center items-center gap-2 px-7 py-4 rounded-2xl bg-coral-500 hover:bg-coral-600 text-white font-bold text-base shadow-soft transition-all active:scale-[0.98]">
+                            <span data-i18n="heroCtaCatalog">Выбрать животное</span>
+                            <i data-lucide="arrow-down-right" class="w-5 h-5"></i>
+                        </a>
+                        <a href="#ai-advisor" class="inline-flex justify-center items-center gap-2 px-7 py-4 rounded-2xl bg-white hover:bg-cream-100 text-cream-900 border border-cream-200 font-bold text-base transition-all">
+                            <i data-lucide="sparkles" class="w-5 h-5 text-coral-500"></i>
+                            <span data-i18n="heroCtaAi">Подобрать с ИИ</span>
+                        </a>
+                    </div>
+
+                    <!-- Быстрый блок с номером для приобретения -->
+                    <div class="p-4 sm:p-5 rounded-2xl bg-white border border-cream-200 shadow-card flex flex-col sm:flex-row sm:items-center justify-between gap-4 max-w-xl">
+                        <div>
+                            <span class="text-xs font-bold uppercase tracking-wider text-cream-800/60 block" data-i18n="heroPhoneLabel">Прямой номер для приобретения:</span>
+                            <a href="tel:+77008889900" class="font-display font-extrabold text-xl sm:text-2xl text-cream-900 hover:text-coral-600 transition-colors">
+                                +7 (700) 888-99-00
+                            </a>
+                        </div>
+                        <a href="tel:+77008889900" class="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-sm transition-colors shrink-0">
+                            <i data-lucide="phone" class="w-4 h-4"></i>
+                            <span data-i18n="heroCallBtn">Позвонить сейчас</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Правая колонка с разнообразными животными -->
+                <div class="lg:col-span-6">
+                    <div class="grid grid-cols-2 gap-4 sm:gap-5">
+                        <div class="space-y-4 sm:space-y-5">
+                            <div class="rounded-3xl overflow-hidden shadow-soft bg-cream-200 aspect-[4/4]">
+                                <img 
+                                    src="https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?auto=format&fit=crop&w=800&q=80" 
+                                    onerror="this.src='https://placehold.co/600x600/EAE4DA/453F36?text=Собаки'"
+                                    alt="Собака" 
+                                    class="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+                                >
+                            </div>
+                            <div class="rounded-3xl overflow-hidden shadow-soft bg-cream-200 aspect-[4/3]">
+                                <img 
+                                    src="https://images.unsplash.com/photo-1552728089-57bdde30beb3?auto=format&fit=crop&w=800&q=80" 
+                                    onerror="this.src='https://placehold.co/600x450/EAE4DA/453F36?text=Птицы'"
+                                    alt="Яркий попугай" 
+                                    class="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+                                >
+                            </div>
+                        </div>
+                        <div class="space-y-4 sm:space-y-5 pt-6 sm:pt-10">
+                            <div class="rounded-3xl overflow-hidden shadow-soft bg-cream-200 aspect-[4/3]">
+                                <img 
+                                    src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=800&q=80" 
+                                    onerror="this.src='https://placehold.co/600x450/EAE4DA/453F36?text=Кошки'"
+                                    alt="Кошка" 
+                                    class="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+                                >
+                            </div>
+                            <div class="rounded-3xl overflow-hidden shadow-soft bg-cream-200 aspect-[4/4]">
+                                <img 
+                                    src="https://images.unsplash.com/photo-1504450874802-0ba2bcd9b5ae?auto=format&fit=crop&w=800&q=80" 
+                                    onerror="this.src='https://placehold.co/600x600/EAE4DA/453F36?text=Рептилии'"
+                                    alt="Экзотический хамелеон" 
+                                    class="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+                                >
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- РАЗДЕЛ: Искусственный интеллект для подбора домашнего животного -->
+    <section id="ai-advisor" class="py-14 sm:py-20 bg-white border-y border-cream-200/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-3xl mx-auto text-center mb-10">
+                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-coral-50 text-coral-600 text-xs font-bold uppercase tracking-wider mb-3">
+                    <i data-lucide="sparkles" class="w-4 h-4"></i>
+                    <span>ANIMAL.shop AI Assistant</span>
+                </div>
+                <h2 class="font-display font-extrabold text-3xl sm:text-4xl text-cream-900" data-i18n="aiTitle">
+                    ИИ-помощник по выбору питомца
+                </h2>
+                <p class="text-sm sm:text-base text-cream-800/80 mt-3" data-i18n="aiSubtitle">
+                    Ответьте на 3 простых вопроса или опишите свои пожелания своими словами — искусственный интеллект проанализирует наш каталог и предложит наиболее подходящих питомцев.
+                </p>
+            </div>
+
+            <div class="bg-cream-50 rounded-3xl border border-cream-200 p-6 sm:p-8 lg:p-10 shadow-card">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                    <!-- Форма параметров для ИИ -->
+                    <div class="lg:col-span-6 space-y-5">
+                        <div>
+                            <label class="block text-sm font-bold text-cream-900 mb-2" data-i18n="aiQ1">1. Кто будет основным владельцем?</label>
+                            <div class="grid grid-cols-3 gap-2.5" id="ai-owner-group">
+                                <button type="button" data-val="teen" class="ai-opt-btn py-3 px-3 rounded-xl border text-xs sm:text-sm font-semibold bg-white border-cream-200 text-cream-800 hover:border-coral-400 transition-all" data-i18n="aiOwnerTeen">Подросток / Студент</button>
+                                <button type="button" data-val="adult" class="ai-opt-btn py-3 px-3 rounded-xl border text-xs sm:text-sm font-semibold bg-coral-500 border-coral-500 text-white transition-all" data-i18n="aiOwnerAdult">Взрослый / Семья</button>
+                                <button type="button" data-val="senior" class="ai-opt-btn py-3 px-3 rounded-xl border text-xs sm:text-sm font-semibold bg-white border-cream-200 text-cream-800 hover:border-coral-400 transition-all" data-i18n="aiOwnerSenior">Пожилой человек</button>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-bold text-cream-900 mb-2" data-i18n="aiQ2">2. Сколько времени в день вы готовы уделять уходу?</label>
+                            <div class="grid grid-cols-3 gap-2.5" id="ai-time-group">
+                                <button type="button" data-val="low" class="ai-opt-btn py-3 px-3 rounded-xl border text-xs sm:text-sm font-semibold bg-white border-cream-200 text-cream-800 hover:border-coral-400 transition-all" data-i18n="aiTimeLow">30–40 минут</button>
+                                <button type="button" data-val="medium" class="ai-opt-btn py-3 px-3 rounded-xl border text-xs sm:text-sm font-semibold bg-coral-500 border-coral-500 text-white transition-all" data-i18n="aiTimeMed">1–2 часа</button>
+                                <button type="button" data-val="high" class="ai-opt-btn py-3 px-3 rounded-xl border text-xs sm:text-sm font-semibold bg-white border-cream-200 text-cream-800 hover:border-coral-400 transition-all" data-i18n="aiTimeHigh">Более 3 часов</button>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="ai-free-text" class="block text-sm font-bold text-cream-900 mb-2" data-i18n="aiQ3">3. Особые пожелания (необязательно)</label>
+                            <input 
+                                type="text" 
+                                id="ai-free-text" 
+                                placeholder="Например: тихий, для небольшой квартиры, без длинной шерсти..." 
+                                class="w-full px-4 py-3.5 rounded-xl bg-white border border-cream-200 text-sm text-cream-900 placeholder:text-cream-800/50 focus:outline-none focus:border-coral-500"
+                            >
+                        </div>
+
+                        <button type="button" id="run-ai-btn" class="w-full py-4 px-6 rounded-2xl bg-cream-900 hover:bg-coral-600 text-white font-bold text-sm sm:text-base shadow-soft transition-all flex items-center justify-center gap-2.5 active:scale-[0.99]">
+                            <i data-lucide="sparkles" class="w-5 h-5 text-coral-400"></i>
+                            <span data-i18n="aiAnalyzeBtn">Подобрать питомца с помощью ИИ</span>
+                        </button>
+                    </div>
+
+                    <!-- Результат работы ИИ -->
+                    <div class="lg:col-span-6 bg-white rounded-2xl border border-cream-200 p-5 sm:p-6 min-h-[290px] flex flex-col justify-between" id="ai-result-box">
+                        <div class="space-y-3">
+                            <div class="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-emerald-700">
+                                <i data-lucide="bot" class="w-4 h-4"></i>
+                                <span data-i18n="aiResultHeader">Рекомендация ИИ-эксперта</span>
+                            </div>
+                            <p id="ai-explanation" class="text-sm text-cream-800/85 leading-relaxed" data-i18n="aiInitialHint">
+                                Выберите параметры слева и нажмите кнопку подбора. Алгоритм оценит темперамент, требования к уходу и возраст всех доступных животных в магазине.
+                            </p>
+                        </div>
+
+                        <div id="ai-recommendations-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 mt-5">
+                            <!-- Сюда рендерятся рекомендованные питомцы -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- РАЗДЕЛ: Каталог всех домашних животных -->
+    <section id="catalog" class="py-16 sm:py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
+                <div>
+                    <span class="text-xs font-bold uppercase tracking-wider text-coral-600" data-i18n="catTag">Полный ассортимент</span>
+                    <h2 class="font-display font-extrabold text-3xl sm:text-4xl text-cream-900 mt-1" data-i18n="catTitle">Наши питомцы</h2>
+                </div>
+
+                <!-- Поиск по имени или породе -->
+                <div class="relative w-full md:w-80">
+                    <i data-lucide="search" class="w-4 h-4 text-cream-800/50 absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+                    <input 
+                        type="text" 
+                        id="search-input" 
+                        placeholder="Имя, порода или вид..." 
+                        class="w-full pl-11 pr-10 py-3.5 rounded-xl bg-white border border-cream-200 text-sm text-cream-900 placeholder:text-cream-800/50 focus:outline-none focus:border-coral-500 transition-all"
+                    >
+                    <button id="clear-search-btn" type="button" class="hidden absolute right-3 top-1/2 -translate-y-1/2 p-1.5 text-cream-800/50 hover:text-cream-900">
+                        <i data-lucide="x" class="w-4 h-4"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Фильтры по категориям (абсолютно любые животные) -->
+            <div class="bg-white p-4 sm:p-5 rounded-2xl border border-cream-200 shadow-card mb-8 space-y-4">
+                <div class="flex flex-wrap items-center justify-between gap-4">
+                    <div class="flex flex-wrap gap-2" id="category-tabs">
+                        <button type="button" data-cat="all" class="cat-tab-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-cream-900 text-white transition-all" data-i18n="catAll">Все виды</button>
+                        <button type="button" data-cat="dog" class="cat-tab-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-cream-50 text-cream-800 border border-cream-200 hover:border-cream-300 transition-all" data-i18n="catDog">Собаки</button>
+                        <button type="button" data-cat="cat" class="cat-tab-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-cream-50 text-cream-800 border border-cream-200 hover:border-cream-300 transition-all" data-i18n="catCat">Кошки</button>
+                        <button type="button" data-cat="bird" class="cat-tab-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-cream-50 text-cream-800 border border-cream-200 hover:border-cream-300 transition-all" data-i18n="catBird">Птицы</button>
+                        <button type="button" data-cat="rodent" class="cat-tab-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-cream-50 text-cream-800 border border-cream-200 hover:border-cream-300 transition-all" data-i18n="catRodent">Грызуны и кролики</button>
+                        <button type="button" data-cat="reptile" class="cat-tab-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-cream-50 text-cream-800 border border-cream-200 hover:border-cream-300 transition-all" data-i18n="catReptile">Рептилии и экзотика</button>
+                    </div>
+
+                    <!-- Фильтр по полу -->
+                    <div class="flex items-center gap-3 w-full sm:w-auto">
+                        <select id="gender-filter" class="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-cream-50 border border-cream-200 text-sm font-medium text-cream-900 focus:outline-none focus:border-coral-500">
+                            <option value="all" data-i18n="genderAll">Пол: Любой</option>
+                            <option value="male" data-i18n="genderMale">Мальчик (Самец)</option>
+                            <option value="female" data-i18n="genderFemale">Девочка (Самка)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between pt-3 border-t border-cream-100 text-xs sm:text-sm text-cream-800/75">
+                    <span id="catalog-counter">Показано питомцев: 12</span>
+                    <button id="reset-filters-btn" type="button" class="hidden text-coral-600 hover:text-coral-700 font-bold inline-flex items-center gap-1">
+                        <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+                        <span data-i18n="resetFilters">Сбросить фильтры</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Сетка карточек -->
+            <div id="pets-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <!-- Генерируется через JS -->
+            </div>
+
+            <!-- Пустое состояние -->
+            <div id="empty-catalog" class="hidden py-16 px-4 text-center bg-white rounded-3xl border border-dashed border-cream-300">
+                <div class="w-14 h-14 rounded-2xl bg-cream-100 text-cream-800 flex items-center justify-center mx-auto mb-4">
+                    <i data-lucide="search-x" class="w-7 h-7"></i>
+                </div>
+                <h3 class="font-display font-bold text-xl text-cream-900" data-i18n="emptyTitle">Питомцы по запросу не найдены</h3>
+                <p class="text-sm text-cream-800/70 max-w-md mx-auto mt-2" data-i18n="emptyDesc">
+                    Попробуйте выбрать другую категорию животных или очистить поисковую строку.
+                </p>
+                <button type="button" onclick="resetAllFilters()" class="mt-6 px-6 py-3 rounded-xl bg-coral-500 hover:bg-coral-600 text-white text-sm font-bold transition-all" data-i18n="emptyBtn">
+                    Показать весь каталог
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- РАЗДЕЛ: Номер для приобретения и контакты -->
+    <section id="contact-buy" class="py-14 sm:py-20 bg-cream-100/80 border-t border-cream-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-white rounded-3xl border border-cream-200 p-6 sm:p-10 lg:p-12 shadow-soft">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                    <div class="lg:col-span-7 space-y-4">
+                        <span class="inline-block px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 text-xs font-bold uppercase tracking-wider" data-i18n="buyTag">
+                            Прямая связь с магазином
+                        </span>
+                        <h2 class="font-display font-extrabold text-3xl sm:text-4xl text-cream-900" data-i18n="buyTitle">
+                            Номер для приобретения и бронирования питомца
+                        </h2>
+                        <p class="text-sm sm:text-base text-cream-800/80 leading-relaxed max-w-2xl" data-i18n="buyDesc">
+                            Позвоните нам, чтобы задать вопросы о характере, питании и документах любого животного, забронировать питомца или оформить бережную доставку на дом. Подходит для покупателей любого возраста — наши специалисты подробно и терпеливо проконсультируют каждого.
+                        </p>
+                    </div>
+
+                    <div class="lg:col-span-5 bg-cream-50 p-6 sm:p-7 rounded-2xl border border-cream-200 space-y-4">
+                        <div>
+                            <span class="text-xs font-bold text-cream-800/60 uppercase block mb-1" data-i18n="buyPhoneCaption">Единый телефон ANIMAL.shop:</span>
+                            <a href="tel:+77008889900" class="font-display font-extrabold text-2xl sm:text-3xl text-coral-600 hover:text-coral-700 transition-colors block">
+                                +7 (700) 888-99-00
+                            </a>
+                        </div>
+                        <div class="flex flex-col sm:flex-row gap-3">
+                            <a href="tel:+77008889900" class="flex-1 py-3.5 px-5 rounded-xl bg-coral-500 hover:bg-coral-600 text-white font-bold text-sm text-center transition-colors inline-flex items-center justify-center gap-2">
+                                <i data-lucide="phone-call" class="w-4 h-4"></i>
+                                <span data-i18n="heroCallBtn">Позвонить сейчас</span>
+                            </a>
+                            <button type="button" onclick="copyPhoneNumber()" class="py-3.5 px-5 rounded-xl bg-white hover:bg-cream-100 text-cream-900 border border-cream-200 font-bold text-sm transition-colors inline-flex items-center justify-center gap-2">
+                                <i data-lucide="copy" class="w-4 h-4"></i>
+                                <span data-i18n="copyBtnShort">Копировать</span>
+                            </button>
+                        </div>
+                        <p class="text-xs text-cream-800/70" data-i18n="buyNote">
+                            Каждый питомец передается с ветеринарным паспортом, рекомендациями по уходу и стартовым набором корма.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Подвал сайта -->
+    <footer class="bg-cream-900 text-cream-200 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-6">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl bg-coral-500 text-white flex items-center justify-center">
+                    <i data-lucide="paw-print" class="w-5 h-5"></i>
+                </div>
+                <span class="font-display font-extrabold text-xl text-white">ANIMAL<span class="text-coral-500">.shop</span></span>
+            </div>
+            <p class="text-xs sm:text-sm text-cream-300/70 text-center sm:text-right" data-i18n="footerCopy">
+                © 2026 ANIMAL.shop — Магазин домашних животных. Тел.: +7 (700) 888-99-00
+            </p>
+        </div>
+    </footer>
+
+    <!-- МОДАЛЬНОЕ ОКНО: Карточка питомца и оформление покупки -->
+    <div id="pet-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-6 bg-cream-900/60 backdrop-blur-sm overflow-y-auto">
+        <div class="relative w-full max-w-4xl bg-white rounded-3xl shadow-2xl overflow-hidden my-auto border border-cream-200">
+            <button id="close-pet-modal" type="button" class="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-white/95 hover:bg-white text-cream-900 shadow-md flex items-center justify-center transition-all" aria-label="Закрыть">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+            <div id="pet-modal-content" class="grid grid-cols-1 lg:grid-cols-12 max-h-[90vh] overflow-y-auto">
+                <!-- Контент генерируется через JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- МОДАЛЬНОЕ ОКНО: Избранное -->
+    <div id="favorites-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-6 bg-cream-900/60 backdrop-blur-sm">
+        <div class="relative w-full max-w-2xl bg-white rounded-3xl shadow-2xl overflow-hidden border border-cream-200 flex flex-col max-h-[85vh]">
+            <div class="px-6 py-5 border-b border-cream-200 flex items-center justify-between">
+                <h3 class="font-display font-bold text-xl text-cream-900 flex items-center gap-2">
+                    <i data-lucide="heart" class="w-5 h-5 text-coral-500"></i>
+                    <span data-i18n="btnFavorites">Избранное</span>
+                </h3>
+                <button id="close-favorites-modal" type="button" class="w-9 h-9 rounded-full hover:bg-cream-100 text-cream-800 flex items-center justify-center">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            <div id="favorites-list" class="p-6 overflow-y-auto space-y-4"></div>
+        </div>
+    </div>
+
+    <!-- МОДАЛЬНОЕ ОКНО: Мои покупки / заявки -->
+    <div id="orders-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-6 bg-cream-900/60 backdrop-blur-sm">
+        <div class="relative w-full max-w-2xl bg-white rounded-3xl shadow-2xl overflow-hidden border border-cream-200 flex flex-col max-h-[85vh]">
+            <div class="px-6 py-5 border-b border-cream-200 flex items-center justify-between">
+                <h3 class="font-display font-bold text-xl text-cream-900 flex items-center gap-2">
+                    <i data-lucide="shopping-bag" class="w-5 h-5 text-coral-500"></i>
+                    <span data-i18n="btnOrders">Мои покупки и брони</span>
+                </h3>
+                <button id="close-orders-modal" type="button" class="w-9 h-9 rounded-full hover:bg-cream-100 text-cream-800 flex items-center justify-center">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            <div id="orders-list" class="p-6 overflow-y-auto space-y-4"></div>
+        </div>
+    </div>
+
+    <!-- Toast-уведомления -->
+    <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none max-w-[calc(100vw-40px)]"></div>
+
+    <script>
+        // ==========================================
+        // 1. МУЛЬТИЯЗЫЧНЫЙ СЛОВАРЬ (RU / KZ / EN)
+        // ==========================================
+        const I18N = {
+            ru: {
+                copyPhone: 'Скопировать номер',
+                topSchedule: 'Отдел продаж и консультаций: 09:00 – 21:00',
+                logoSub: 'любые домашние питомцы',
+                navCatalog: 'Каталог животных',
+                navAi: 'ИИ-подбор питомца',
+                navContacts: 'Номер для покупки',
+                btnFavorites: 'Избранное',
+                btnOrders: 'Покупки',
+                heroBadge: 'От пушистых котят до экзотических хамелеонов',
+                heroTitle: 'Найдите идеального питомца для вашей жизни',
+                heroDesc: 'В ANIMAL.shop представлены здоровые домашние животные любых видов с паспортом, указанием имени, породы, пола и возраста. Не знаете, кого выбрать? Наш встроенный ИИ-консультант подберет друга под ваш ритм жизни.',
+                heroCtaCatalog: 'Выбрать животное',
+                heroCtaAi: 'Подобрать с ИИ',
+                heroPhoneLabel: 'Прямой номер для приобретения:',
+                heroCallBtn: 'Позвонить сейчас',
+                aiTitle: 'ИИ-помощник по выбору питомца',
+                aiSubtitle: 'Ответьте на 3 простых вопроса или опишите свои пожелания — искусственный интеллект проанализирует наш каталог и предложит наиболее подходящих питомцев.',
+                aiQ1: '1. Кто будет основным владельцем?',
+                aiOwnerTeen: 'Подросток / Студент',
+                aiOwnerAdult: 'Взрослый / Семья',
+                aiOwnerSenior: 'Пожилой человек',
+                aiQ2: '2. Сколько времени в день вы готовы уделять уходу?',
+                aiTimeLow: '30–40 минут',
+                aiTimeMed: '1–2 часа',
+                aiTimeHigh: 'Более 3 часов',
+                aiQ3: '3. Особые пожелания (необязательно)',
+                aiAnalyzeBtn: 'Подобрать питомца с помощью ИИ',
+                aiResultHeader: 'Рекомендация ИИ-эксперта',
+                aiInitialHint: 'Выберите параметры слева и нажмите кнопку подбора. Алгоритм оценит темперамент, требования к уходу и возраст всех доступных животных в магазине.',
+                catTag: 'Полный ассортимент',
+                catTitle: 'Наши питомцы',
+                catAll: 'Все виды',
+                catDog: 'Собаки',
+                catCat: 'Кошки',
+                catBird: 'Птицы',
+                catRodent: 'Грызуны и кролики',
+                catReptile: 'Рептилии и экзотика',
+                genderAll: 'Пол: Любой',
+                genderMale: 'Мальчик (Самец)',
+                genderFemale: 'Девочка (Самка)',
+                resetFilters: 'Сбросить фильтры',
+                emptyTitle: 'Питомцы по запросу не найдены',
+                emptyDesc: 'Попробуйте выбрать другую категорию животных или очистить поисковую строку.',
+                emptyBtn: 'Показать весь каталог',
+                buyTag: 'Прямая связь с магазином',
+                buyTitle: 'Номер для приобретения и бронирования питомца',
+                buyDesc: 'Позвоните нам, чтобы задать вопросы о характере, питании и документах любого животного, забронировать питомца или оформить бережную доставку на дом. Наши специалисты подробно и терпеливо проконсультируют покупателей любого возраста.',
+                buyPhoneCaption: 'Единый телефон ANIMAL.shop:',
+                copyBtnShort: 'Копировать',
+                buyNote: 'Каждый питомец передается с ветеринарным паспортом, рекомендациями по уходу и стартовым набором корма.',
+                footerCopy: '© 2026 ANIMAL.shop — Магазин домашних животных. Тел.: +7 (700) 888-99-00',
+                cardBuyBtn: 'Подробнее и купить',
+                phoneCopiedToast: 'Номер +7 (700) 888-99-00 скопирован!',
+                shownCount: 'Показано питомцев:'
+            },
+            kz: {
+                copyPhone: 'Нөмірді көшіру',
+                topSchedule: 'Сату және кеңес беру бөлімі: 09:00 – 21:00',
+                logoSub: 'кез келген үй жануарлары',
+                navCatalog: 'Жануарлар каталогы',
+                navAi: 'ЖИ-таңдау көмекшісі',
+                navContacts: 'Сатып алу нөмірі',
+                btnFavorites: 'Таңдаулылар',
+                btnOrders: 'Сатып алулар',
+                heroBadge: 'Үлпілдек марғаулардан экзотикалық хамелеондарға дейін',
+                heroTitle: 'Өміріңізге мінсіз үй жануарын табыңыз',
+                heroDesc: 'ANIMAL.shop дүкенінде төлқұжаты, аты, тұқымы, жынысы және жасы көрсетілген кез келген түрдегі сау үй жануарлары ұсынылған. Кімді таңдауды білмейсіз бе? Біздің ЖИ-кеңесшіміз өмір салтыңызға сай дос таңдап береді.',
+                heroCtaCatalog: 'Жануарды таңдау',
+                heroCtaAi: 'ЖИ арқылы таңдау',
+                heroPhoneLabel: 'Сатып алуға арналған тікелей нөмір:',
+                heroCallBtn: 'Қазір қоңырау шалу',
+                aiTitle: 'Үй жануарын таңдауға арналған ЖИ-көмекші',
+                aiSubtitle: '3 қарапайым сұраққа жауап беріңіз немесе тілектеріңізді жазыңыз — жасанды интеллект каталогты талдап, ең қолайлы жануарларды ұсынады.',
+                aiQ1: '1. Негізгі иесі кім болады?',
+                aiOwnerTeen: 'Жасөспірім / Студент',
+                aiOwnerAdult: 'Ересек адам / Отбасы',
+                aiOwnerSenior: 'Егде жастағы адам',
+                aiQ2: '2. Күтімге күніне қанша уақыт бөле аласыз?',
+                aiTimeLow: '30–40 минут',
+                aiTimeMed: '1–2 сағат',
+                aiTimeHigh: '3 сағаттан артық',
+                aiQ3: '3. Ерекше тілектер (міндетті емес)',
+                aiAnalyzeBtn: 'ЖИ көмегімен жануар таңдау',
+                aiResultHeader: 'ЖИ-сарапшының ұсынысы',
+                aiInitialHint: 'Сол жақтағы параметрлерді таңдап, таңдау түймесін басыңыз. Алгоритм дүкендегі барлық жануарлардың мінезі мен күтім талаптарын бағалайды.',
+                catTag: 'Толық ассортимент',
+                catTitle: 'Біздің жануарлар',
+                catAll: 'Барлық түрлері',
+                catDog: 'Иттер',
+                catCat: 'Мысықтар',
+                catBird: 'Құстар',
+                catRodent: 'Кеміргіштер мен қояндар',
+                catReptile: 'Бауырымен жорғалаушылар',
+                genderAll: 'Жынысы: Кез келген',
+                genderMale: 'Еркек',
+                genderFemale: 'Ұрғашы',
+                resetFilters: 'Сүзгілерді тазалау',
+                emptyTitle: 'Сұраныс бойынша жануарлар табылмады',
+                emptyDesc: 'Басқа санатты таңдап көріңіз немесе іздеу жолын тазалаңыз.',
+                emptyBtn: 'Барлық каталогты көрсету',
+                buyTag: 'Дүкенмен тікелей байланыс',
+                buyTitle: 'Үй жануарын сатып алу және брондау нөмірі',
+                buyDesc: 'Кез келген жануардың мінезі, тамақтануы және құжаттары туралы сұрақтар қою, брондау немесе үйге жеткізуді рәсімдеу үшін бізге қоңырау шалыңыз.',
+                buyPhoneCaption: 'ANIMAL.shop бірыңғай телефоны:',
+                copyBtnShort: 'Көшіру',
+                buyNote: 'Әрбір жануар ветеринарлық төлқұжатпен, күтім бойынша ұсыныстармен және бастапқы жем жиынтығымен беріледі.',
+                footerCopy: '© 2026 ANIMAL.shop — Үй жануарлары дүкені. Тел.: +7 (700) 888-99-00',
+                cardBuyBtn: 'Толығырақ және сатып алу',
+                phoneCopiedToast: '+7 (700) 888-99-00 нөмірі көшірілді!',
+                shownCount: 'Көрсетілген жануарлар:'
+            },
+            en: {
+                copyPhone: 'Copy number',
+                topSchedule: 'Sales & Consultation Desk: 09:00 – 21:00',
+                logoSub: 'any domestic pets',
+                navCatalog: 'Pets Catalog',
+                navAi: 'AI Pet Matcher',
+                navContacts: 'Purchase Phone',
+                btnFavorites: 'Favorites',
+                btnOrders: 'Purchases',
+                heroBadge: 'From fluffy kittens to exotic chameleons',
+                heroTitle: 'Find the perfect pet companion for your lifestyle',
+                heroDesc: 'ANIMAL.shop offers healthy pets of all species with veterinary passports, clear names, breeds, genders, and ages. Not sure who to pick? Our built-in AI advisor matches you with your ideal friend.',
+                heroCtaCatalog: 'Browse Pets',
+                heroCtaAi: 'Match with AI',
+                heroPhoneLabel: 'Direct number for purchase:',
+                heroCallBtn: 'Call Now',
+                aiTitle: 'AI Pet Selection Advisor',
+                aiSubtitle: 'Answer 3 quick questions or type your preferences — our AI analyzes the catalog and recommends the best-fitting companions for you.',
+                aiQ1: '1. Who will be the primary owner?',
+                aiOwnerTeen: 'Teenager / Student',
+                aiOwnerAdult: 'Adult / Family',
+                aiOwnerSenior: 'Senior Citizen',
+                aiQ2: '2. How much daily time can you dedicate to care?',
+                aiTimeLow: '30–40 mins',
+                aiTimeMed: '1–2 hours',
+                aiTimeHigh: '3+ hours',
+                aiQ3: '3. Special preferences (optional)',
+                aiAnalyzeBtn: 'Find My Pet with AI',
+                aiResultHeader: 'AI Expert Recommendation',
+                aiInitialHint: 'Select your options on the left and click the match button. The algorithm evaluates temperament, care requirements, and age across all available pets.',
+                catTag: 'Full Assortment',
+                catTitle: 'Available Pets',
+                catAll: 'All Species',
+                catDog: 'Dogs',
+                catCat: 'Cats',
+                catBird: 'Birds',
+                catRodent: 'Rodents & Rabbits',
+                catReptile: 'Reptiles & Exotics',
+                genderAll: 'Gender: Any',
+                genderMale: 'Male',
+                genderFemale: 'Female',
+                resetFilters: 'Reset filters',
+                emptyTitle: 'No pets matched your filters',
+                emptyDesc: 'Try selecting a different species category or clearing the search bar.',
+                emptyBtn: 'Show all pets',
+                buyTag: 'Direct Store Line',
+                buyTitle: 'Phone Number for Purchase & Reservation',
+                buyDesc: 'Call us to ask about any pet’s personality, diet, or documents, reserve your future companion, or arrange safe home delivery. Our specialists patiently assist buyers of all ages.',
+                buyPhoneCaption: 'ANIMAL.shop Direct Line:',
+                copyBtnShort: 'Copy',
+                buyNote: 'Every pet comes with a veterinary passport, care guide, and a starter food kit.',
+                footerCopy: '© 2026 ANIMAL.shop — Pet Marketplace. Tel.: +7 (700) 888-99-00',
+                cardBuyBtn: 'Details & Buy',
+                phoneCopiedToast: 'Phone number +7 (700) 888-99-00 copied!',
+                shownCount: 'Pets shown:'
+            }
+        };
+
+        // ==========================================
+        // 2. КАТАЛОГ ЖИВОТНЫХ (ВСЕ ВИДЫ, ИМЕНА, ПОРОДЫ, ПОЛ, ВОЗРАСТ)
+        // ==========================================
+        const PETS_CATALOG = [
+            {
+                id: 'p-1',
+                category: 'dog',
+                species: { ru: 'Собака', kz: 'Ит', en: 'Dog' },
+                name: { ru: 'Оливер', kz: 'Оливер', en: 'Oliver' },
+                breed: { ru: 'Вельш-корги пемброк', kz: 'Вельш-корги пемброк', en: 'Pembroke Welsh Corgi' },
+                age: { ru: '8 месяцев', kz: '8 ай', en: '8 months' },
+                gender: 'male',
+                genderLabel: { ru: 'Мальчик', kz: 'Еркек', en: 'Male' },
+                price: '145 000 ₸',
+                careLevel: 'medium',
+                bestFor: ['teen', 'adult'],
+                tags: ['активный', 'умный', 'квартира'],
+                image: 'https://images.unsplash.com/photo-1612536057832-2ff7ead58194?auto=format&fit=crop&w=800&q=80',
+                desc: {
+                    ru: 'Жизнерадостный и сообразительный корги с отличной родословной. Быстро учит команды, обожает прогулки и легко адаптируется к жизни в квартире.',
+                    kz: 'Тамаша тұқымды көңілді және ақылды корги. Бұйрықтарды тез үйренеді, серуендеуді жақсы көреді.',
+                    en: 'Cheerful and clever Corgi with great pedigree. Learns commands quickly, loves walks, and adapts easily to apartment living.'
+                }
+            },
+            {
+                id: 'p-2',
+                category: 'cat',
+                species: { ru: 'Кошка', kz: 'Мысық', en: 'Cat' },
+                name: { ru: 'Амели', kz: 'Амели', en: 'Amelie' },
+                breed: { ru: 'Шотландская вислоухая', kz: 'Шотландиялық салпаңқұлақ', en: 'Scottish Fold' },
+                age: { ru: '1 год', kz: '1 жас', en: '1 year' },
+                gender: 'female',
+                genderLabel: { ru: 'Девочка', kz: 'Ұрғашы', en: 'Female' },
+                price: '75 000 ₸',
+                careLevel: 'low',
+                bestFor: ['senior', 'adult', 'teen'],
+                tags: ['тихий', 'спокойный', 'ласковый'],
+                image: 'https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?auto=format&fit=crop&w=800&q=80',
+                desc: {
+                    ru: 'Нежная плюшевая кошечка со спокойным характером. Не требует сложных прогулок, приучена к лотку и когтеточке, станет прекрасным компаньоном для спокойного дома.',
+                    kz: 'Мінезі байсалды нәзік мысық. Лотокқа үйренген, тыныш үйге тамаша серік болады.',
+                    en: 'Gentle plush cat with a calm temperament. Litter-trained and quiet, making her a wonderful companion for a peaceful home.'
+                }
+            },
+            {
+                id: 'p-3',
+                category: 'bird',
+                species: { ru: 'Птица', kz: 'Құс', en: 'Bird' },
+                name: { ru: 'Рио', kz: 'Рио', en: 'Rio' },
+                breed: { ru: 'Попугай Корелла', kz: 'Корелла тотықұсы', en: 'Cockatiel Parrot' },
+                age: { ru: '6 месяцев', kz: '6 ай', en: '6 months' },
+                gender: 'male',
+                genderLabel: { ru: 'Мальчик', kz: 'Еркек', en: 'Male' },
+                price: '32 000 ₸',
+                careLevel: 'low',
+                bestFor: ['teen', 'senior', 'adult'],
+                tags: ['общительный', 'поет', 'ручной'],
+                image: 'https://images.unsplash.com/photo-1552728089-57bdde30beb3?auto=format&fit=crop&w=800&q=80',
+                desc: {
+                    ru: 'Ручной молодой самец кореллы. Охотно садится на плечо, умеет насвистывать мелодии и заряжает дом позитивом. Прост в уходе.',
+                    kz: 'Қолға үйренген жас корелла. Иыққа отырады, әуен ысқыра алады және күтімі өте оңай.',
+                    en: 'Tame young male cockatiel. Willingly perches on shoulders, whistles melodies, and is very easy to care for.'
+                }
+            },
+            {
+                id: 'p-4',
+                category: 'reptile',
+                species: { ru: 'Рептилия', kz: 'Бауырымен жорғалаушы', en: 'Reptile' },
+                name: { ru: 'Паскаль', kz: 'Паскаль', en: 'Pascal' },
+                breed: { ru: 'Йеменский хамелеон', kz: 'Йемен хамелеоны', en: 'Veiled Chameleon' },
+                age: { ru: '7 месяцев', kz: '7 ай', en: '7 months' },
+                gender: 'male',
+                genderLabel: { ru: 'Мальчик', kz: 'Еркек', en: 'Male' },
+                price: '58 000 ₸',
+                careLevel: 'low',
+                bestFor: ['teen', 'adult'],
+                tags: ['экзотика', 'тихий', 'без шерсти', 'гипоаллергенный'],
+                image: 'https://images.unsplash.com/photo-1504450874802-0ba2bcd9b5ae?auto=format&fit=crop&w=800&q=80',
+                desc: {
+                    ru: 'Яркий и необычный питомец, который не вызывает аллергии, не шумит и не портит мебель. Поможем укомплектовать террариум всем необходимым.',
+                    kz: 'Аллергия тудырмайтын, шуламайтын ерекше үй жануары. Террариумды толық жабдықтауға көмектесеміз.',
+                    en: 'Vibrant, hypoallergenic, and completely silent exotic pet. We help equip the terrarium with everything needed.'
+                }
+            },
+            {
+                id: 'p-5',
+                category: 'rodent',
+                species: { ru: 'Кролик', kz: 'Қоян', en: 'Rabbit' },
+                name: { ru: 'Снежок', kz: 'Ақшақар', en: 'Snowball' },
+                breed: { ru: 'Нидерландский карликовый кролик', kz: 'Нидерланд ергежейлі қояны', en: 'Netherland Dwarf Rabbit' },
+                age: { ru: '5 месяцев', kz: '5 ай', en: '5 months' },
+                gender: 'male',
+                genderLabel: { ru: 'Мальчик', kz: 'Еркек', en: 'Male' },
+                price: '24 000 ₸',
+                careLevel: 'low',
+                bestFor: ['teen', 'senior', 'adult'],
+                tags: ['тихий', 'маленький', 'мягкий'],
+                image: 'https://images.unsplash.com/photo-1585110396000-c9ffd4e4b308?auto=format&fit=crop&w=800&q=80',
+                desc: {
+                    ru: 'Миниатюрный декоративный кролик весом около 1 кг. Очень чистоплотный, приучен к угловому лотку, любит нежное поглаживание.',
+                    kz: 'Салмағы шамамен 1 кг болатын сәндік қоян. Өте таза, лотокқа үйренген, сипағанды жақсы көреді.',
+                    en: 'Miniature ornamental rabbit weighing around 1 kg. Very clean, litter-box trained, and loves gentle petting.'
+                }
+            },
+            {
+                id: 'p-6',
+                category: 'dog',
+                species: { ru: 'Собака', kz: 'Ит', en: 'Dog' },
+                name: { ru: 'Белла', kz: 'Белла', en: 'Bella' },
+                breed: { ru: 'Кавалер-кинг-чарльз-спаниель', kz: 'Кавалер-кинг-чарльз-спаниель', en: 'Cavalier King Charles Spaniel' },
+                age: { ru: '1.5 года', kz: '1.5 жас', en: '1.5 years' },
+                gender: 'female',
+                genderLabel: { ru: 'Девочка', kz: 'Ұрғашы', en: 'Female' },
+                price: '160 000 ₸',
+                careLevel: 'medium',
+                bestFor: ['senior', 'adult'],
+                tags: ['добрый', 'спокойный', 'компаньон'],
+                image: 'https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?auto=format&fit=crop&w=800&q=80',
+                desc: {
+                    ru: 'Идеальная собака-компаньон с мягким, неагрессивным нравом. Прекрасно подходит как для семьи, так и для пожилых людей, любящих неспешные прогулки.',
+                    kz: 'Жұмсақ мінезді мінсіз серік ит. Отбасыға да, баяу серуендеуді ұнататын егде жастағы адамдарға да өте қолайлы.',
+                    en: 'Ideal companion dog with a gentle, non-aggressive nature. Great for both families and seniors who enjoy leisurely walks.'
+                }
+            },
+            {
+                id: 'p-7',
+                category: 'cat',
+                species: { ru: 'Кошка', kz: 'Мысық', en: 'Cat' },
+                name: { ru: 'Марсель', kz: 'Марсель', en: 'Marcel' },
+                breed: { ru: 'Мейн-кун', kz: 'Мейн-кун', en: 'Maine Coon' },
+                age: { ru: '10 месяцев', kz: '10 ай', en: '10 months' },
+                gender: 'male',
+                genderLabel: { ru: 'Мальчик', kz: 'Еркек', en: 'Male' },
+                price: '130 000 ₸',
+                careLevel: 'medium',
+                bestFor: ['adult', 'teen'],
+                tags: ['крупный', 'умный', 'дружелюбный'],
+                image: 'https://images.unsplash.com/photo-1533738363-b7f9aef128ce?auto=format&fit=crop&w=800&q=80',
+                desc: {
+                    ru: 'Величественный и добродушный гигант с кисточками на ушах. Обладает интеллектом собаки, обожает интерактивные игры и всегда встречает хозяина у двери.',
+                    kz: 'Құлағында шашақтары бар ақылды әрі мейірімді алып мысық. Ойындарды жақсы көреді және иесін әрдайым есік алдында қарсы алады.',
+                    en: 'Majestic and good-natured gentle giant with ear tufts. Dog-like intelligence, loves interactive play, and greets owners at the door.'
+                }
+            },
+            {
+                id: 'p-8',
+                category: 'reptile',
+                species: { ru: 'Черепаха', kz: 'Тасбақа', en: 'Turtle' },
+                name: { ru: 'Торти', kz: 'Торти', en: 'Torty' },
+                breed: { ru: 'Среднеазиатская сухопутная черепаха', kz: 'Орта Азия құрлық тасбақасы', en: 'Russian Tortoise' },
+                age: { ru: '2 года', kz: '2 жас', en: '2 years' },
+                gender: 'female',
+                genderLabel: { ru: 'Девочка', kz: 'Ұрғашы', en: 'Female' },
+                price: '28 000 ₸',
+                careLevel: 'low',
+                bestFor: ['senior', 'teen', 'adult'],
+                tags: ['долгожитель', 'тихий', 'без шерсти'],
+                image: 'https://images.unsplash.com/photo-1437622368342-7a3d73a34c8f?auto=format&fit=crop&w=800&q=80',
+                desc: {
+                    ru: 'Спокойный и неприхотливый питомец-долгожитель. Питается свежей зеленью и овощами, не требует ежедневного выгула и подходит для любого возраста.',
+                    kz: 'Байсалды әрі күтімі оңай ұзақ жасайтын үй жануары. Күнделікті серуендеуді қажет етпейді.',
+                    en: 'Calm and low-maintenance long-lived pet. Eats fresh greens and vegetables, needs no daily walks, and suits any age.'
+                }
+            },
+            {
+                id: 'p-9',
+                category: 'rodent',
+                species: { ru: 'Шиншилла', kz: 'Шиншилла', en: 'Chinchilla' },
+                name: { ru: 'Грейс', kz: 'Грейс', en: 'Grace' },
+                breed: { ru: 'Королевская шиншилла стандарт', kz: 'Корольдік шиншилла', en: 'Standard Chinchilla' },
+                age: { ru: '9 месяцев', kz: '9 ай', en: '9 months' },
+                gender: 'female',
+                genderLabel: { ru: 'Девочка', kz: 'Ұрғашы', en: 'Female' },
+                price: '42 000 ₸',
+                careLevel: 'low',
+                bestFor: ['teen', 'adult'],
+                tags: ['без запаха', 'пушистый', 'активный вечером'],
+                image: 'https://images.unsplash.com/photo-1548767797-d8c844163c4c?auto=format&fit=crop&w=800&q=80',
+                desc: {
+                    ru: 'Обладательница невероятно густого бархатного меха. Шиншиллы не имеют запаха, купаются в специальном вулканическом песке и очень забавны в общении.',
+                    kz: 'Өте қалың барқыт жүнді сүйкімді жануар. Шиншиллалардың иісі болмайды және арнайы құмда шомылады.',
+                    en: 'Possesses incredibly dense velvet fur. Chinchillas have no odor, bathe in volcanic dust, and are delightful to watch.'
+                }
+            },
+            {
+                id: 'p-10',
+                category: 'bird',
+                species: { ru: 'Птица', kz: 'Құс', en: 'Bird' },
+                name: { ru: 'Лимончик', kz: 'Лимончик', en: 'Lemon' },
+                breed: { ru: 'Канарейка певчая', kz: 'Әнші канарейка', en: 'Singing Canary' },
+                age: { ru: '1 год', kz: '1 жас', en: '1 year' },
+                gender: 'male',
+                genderLabel: { ru: 'Мальчик', kz: 'Еркек', en: 'Male' },
+                price: '22 000 ₸',
+                careLevel: 'low',
+                bestFor: ['senior', 'adult'],
+                tags: ['красиво поет', 'компактный', 'уютный'],
+                image: 'https://images.unsplash.com/photo-1444464666168-49d633b86797?auto=format&fit=crop&w=800&q=80',
+                desc: {
+                    ru: 'Солнечная канарейка с мелодичным голосом. Наполнит утро нежным пением, занимает минимум места и дарит атмосферу загородного уюта.',
+                    kz: 'Әуезді дауысты шуақты канарейка. Таңды нәзік әнмен толтырады және өте аз орын алады.',
+                    en: 'Sunny canary with a melodic voice. Fills mornings with gentle singing, takes minimal space, and brings cozy warmth.'
+                }
+            },
+            {
+                id: 'p-11',
+                category: 'dog',
+                species: { ru: 'Собака', kz: 'Ит', en: 'Dog' },
+                name: { ru: 'Рекс', kz: 'Рекс', en: 'Rex' },
+                breed: { ru: 'Золотистый ретривер', kz: 'Алтын ретривер', en: 'Golden Retriever' },
+                age: { ru: '11 месяцев', kz: '11 ай', en: '11 months' },
+                gender: 'male',
+                genderLabel: { ru: 'Мальчик', kz: 'Еркек', en: 'Male' },
+                price: '175 000 ₸',
+                careLevel: 'high',
+                bestFor: ['adult', 'teen'],
+                tags: ['активный', 'семейный', 'верный'],
+                image: 'https://images.unsplash.com/photo-1633722715463-d30f4f325e24?auto=format&fit=crop&w=800&q=80',
+                desc: {
+                    ru: 'Добродушный и энергичный ретривер для активных людей и семей с детьми. Обожает плавать, приносить мяч и быть верным спутником в любых поездках.',
+                    kz: 'Белсенді адамдар мен балалы отбасыларға арналған мейірімді ретривер. Доппен ойнағанды және серуендеуді жақсы көреді.',
+                    en: 'Good-natured, energetic retriever for active people and families. Loves swimming, fetching balls, and traveling together.'
+                }
+            },
+            {
+                id: 'p-12',
+                category: 'reptile',
+                species: { ru: 'Геккон', kz: 'Геккон', en: 'Gecko' },
+                name: { ru: 'Санни', kz: 'Санни', en: 'Sunny' },
+                breed: { ru: 'Пятнистый эублефар', kz: 'Теңбіл эублефар', en: 'Leopard Gecko' },
+                age: { ru: '6 месяцев', kz: '6 ай', en: '6 months' },
+                gender: 'female',
+                genderLabel: { ru: 'Девочка', kz: 'Ұрғашы', en: 'Female' },
+                price: '36 000 ₸',
+                careLevel: 'low',
+                bestFor: ['teen', 'adult'],
+                tags: ['улыбается', 'без шерсти', 'простой уход'],
+                image: 'https://images.unsplash.com/photo-1585095595205-e68428a9e205?auto=format&fit=crop&w=800&q=80',
+                desc: {
+                    ru: 'Очаровательный «улыбающийся» геккон. Абсолютно ручной, не кусается, не имеет шерсти и не требует сложного оборудования. Отличный первый питомец.',
+                    kz: 'Сүйкімді «күлімсіреген» геккон. Қолға тез үйренеді, тістемейді, жүні жоқ. Алғашқы үй жануары ретінде өте қолайлы.',
+                    en: 'Charming "smiling" gecko. Completely tame, never bites, fur-free, and requires simple setup. An ideal first pet.'
+                }
+            }
+        ];
+
+        // ==========================================
+        // 3. СОСТОЯНИЕ И LOCALSTORAGE
+        // ==========================================
+        const STORAGE_KEYS = {
+            LANG: 'animal_shop_lang_v1',
+            FAVORITES: 'animal_shop_favs_v1',
+            ORDERS: 'animal_shop_orders_v1'
+        };
+
+        let state = {
+            lang: 'ru',
+            category: 'all',
+            gender: 'all',
+            search: '',
+            favorites: [],
+            orders: [],
+            aiOwner: 'adult',
+            aiTime: 'medium'
+        };
+
+        function loadState() {
+            try {
+                const savedLang = localStorage.getItem(STORAGE_KEYS.LANG);
+                const savedFavs = localStorage.getItem(STORAGE_KEYS.FAVORITES);
+                const savedOrders = localStorage.getItem(STORAGE_KEYS.ORDERS);
+                if (savedLang && I18N[savedLang]) state.lang = savedLang;
+                if (savedFavs) state.favorites = JSON.parse(savedFavs);
+                if (savedOrders) state.orders = JSON.parse(savedOrders);
+            } catch (e) {
+                console.warn('Storage error:', e);
+            }
+        }
+
+        function saveState() {
+            try {
+                localStorage.setItem(STORAGE_KEYS.LANG, state.lang);
+                localStorage.setItem(STORAGE_KEYS.FAVORITES, JSON.stringify(state.favorites));
+                localStorage.setItem(STORAGE_KEYS.ORDERS, JSON.stringify(state.orders));
+            } catch (e) {
+                console.warn('Storage save error:', e);
+            }
+        }
+
+        // ==========================================
+        // 4. ПЕРЕКЛЮЧЕНИЕ ЯЗЫКОВ (RU / KZ / EN)
+        // ==========================================
+        function setLanguage(lang) {
+            if (!I18N[lang]) return;
+            state.lang = lang;
+            document.documentElement.lang = lang;
+            saveState();
+
+            // Обновляем кнопки переключателя языка
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                if (btn.dataset.lang === lang) {
+                    btn.className = 'lang-btn px-2.5 py-1 rounded-md text-xs font-bold transition-all bg-coral-500 text-white';
+                } else {
+                    btn.className = 'lang-btn px-2.5 py-1 rounded-md text-xs font-bold transition-all text-cream-200 hover:text-white';
+                }
+            });
+
+            // Переводим все статичные элементы с data-i18n
+            const dict = I18N[lang];
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (dict[key]) {
+                    el.textContent = dict[key];
+                }
+            });
+
+            // Плейсхолдеры инпутов
+            const searchInput = document.getElementById('search-input');
+            const aiInput = document.getElementById('ai-free-text');
+            if (lang === 'ru') {
+                searchInput.placeholder = 'Имя, порода или вид...';
+                aiInput.placeholder = 'Например: тихий, для небольшой квартиры, без длинной шерсти...';
+            } else if (lang === 'kz') {
+                searchInput.placeholder = 'Аты, тұқымы немесе түрі...';
+                aiInput.placeholder = 'Мысалы: тыныш, шағын пәтерге, жүні қысқа...';
+            } else {
+                searchInput.placeholder = 'Name, breed or species...';
+                aiInput.placeholder = 'E.g.: quiet, for small apartment, hypoallergenic...';
+            }
+
+            renderCatalog();
+        }
+
+        // ==========================================
+        // 5. УВЕДОМЛЕНИЯ И КОПИРОВАНИЕ НОМЕРА
+        // ==========================================
+        function showToast(msg) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'pointer-events-auto bg-cream-900 text-white px-4 py-3.5 rounded-2xl shadow-xl text-sm font-medium flex items-center gap-2.5 transition-all duration-300 translate-y-2 opacity-0';
+            toast.innerHTML = `<i data-lucide="check-circle-2" class="w-4 h-4 text-coral-400 shrink-0"></i><span>${msg}</span>`;
+            container.appendChild(toast);
+            lucide.createIcons({ nodes: [toast] });
+            requestAnimationFrame(() => toast.classList.remove('translate-y-2', 'opacity-0'));
+            setTimeout(() => {
+                toast.classList.add('translate-y-2', 'opacity-0');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        function copyPhoneNumber() {
+            const phone = '+7 (700) 888-99-00';
+            const tempInput = document.createElement('input');
+            tempInput.value = phone;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+            showToast(I18N[state.lang].phoneCopiedToast);
+        }
+
+        // ==========================================
+        // 6. ИСКУССТВЕННЫЙ ИНТЕЛЛЕКТ ПОДБОРА ПИТОМЦА
+        // ==========================================
+        function runAiAdvisor() {
+            const lang = state.lang;
+            const freeText = document.getElementById('ai-free-text').value.toLowerCase().trim();
+            const explanationEl = document.getElementById('ai-explanation');
+            const gridEl = document.getElementById('ai-recommendations-grid');
+
+            // Скоринг каждого питомца по критериям пользователя
+            const scored = PETS_CATALOG.map(pet => {
+                let score = 0;
+
+                // 1. Соответствие владельцу (подросток / взрослый / пожилой)
+                if (pet.bestFor.includes(state.aiOwner)) score += 4;
+                if (pet.bestFor[0] === state.aiOwner) score += 2;
+
+                // 2. Соответствие свободному времени
+                if (state.aiTime === 'low' && pet.careLevel === 'low') score += 4;
+                if (state.aiTime === 'medium' && (pet.careLevel === 'low' || pet.careLevel === 'medium')) score += 3;
+                if (state.aiTime === 'high') score += 3;
+
+                // 3. Анализ свободного текстового запроса пользователя
+                if (freeText) {
+                    const keywords = freeText.split(/[\s,.;!?]+/).filter(w => w.length > 2);
+                    const searchable = [
+                        pet.species[lang],
+                        pet.breed[lang],
+                        pet.desc[lang],
+                        ...pet.tags
+                    ].join(' ').toLowerCase();
+
+                    keywords.forEach(kw => {
+                        if (searchable.includes(kw)) score += 3;
+                        if ((kw.includes('шерст') || kw.includes('аллерг') || kw.includes('hypo') || kw.includes('жүн')) && pet.tags.includes('без шерсти')) {
+                            score += 5;
+                        }
+                        if ((kw.includes('тих') || kw.includes('спокой') || kw.includes('quiet') || kw.includes('тыныш')) && pet.tags.includes('тихий')) {
+                            score += 4;
+                        }
+                    });
+                }
+
+                return { pet, score };
+            });
+
+            scored.sort((a, b) => b.score - a.score);
+            const topMatches = scored.slice(0, 2).map(item => item.pet);
+
+            // Формирование объяснения на выбранном языке
+            const ownerLabels = {
+                ru: { teen: 'подростка или студента', adult: 'взрослого человека или семьи', senior: 'пожилого человека' },
+                kz: { teen: 'жасөспірім немесе студент', adult: 'ересек адам немесе отбасы', senior: 'егде жастағы адам' },
+                en: { teen: 'a teenager or student', adult: 'an adult or family', senior: 'a senior owner' }
+            };
+
+            if (lang === 'ru') {
+                explanationEl.innerHTML = `На основе ваших параметров (владелец: <strong>${ownerLabels.ru[state.aiOwner]}</strong>) ИИ-алгоритм выбрал 2 наиболее гармоничных варианта из каталога ANIMAL.shop. Они идеально совпадают по уровню активности и требованиям к уходу:`;
+            } else if (lang === 'kz') {
+                explanationEl.innerHTML = `Сіздің параметрлеріңізге сүйене отырып (иесі: <strong>${ownerLabels.kz[state.aiOwner]}</strong>), ЖИ-алгоритм ANIMAL.shop каталогынан ең қолайлы 2 нұсқаны таңдады:`;
+            } else {
+                explanationEl.innerHTML = `Based on your profile (owner: <strong>${ownerLabels.en[state.aiOwner]}</strong>), our AI selected the top 2 matches from ANIMAL.shop tailored to your care schedule and preferences:`;
+            }
+
+            gridEl.innerHTML = topMatches.map(pet => {
+                const fallback = `https://placehold.co/400x300/EAE4DA/453F36?text=${encodeURIComponent(pet.name[lang])}`;
+                return `
+                    <div onclick="openPetModal('${pet.id}')" class="cursor-pointer group p-3.5 rounded-2xl bg-cream-50 hover:bg-coral-50/60 border border-cream-200 hover:border-coral-300 transition-all flex items-center gap-3.5">
+                        <img src="${pet.image}" onerror="this.src='${fallback}'" alt="${pet.name[lang]}" class="w-16 h-16 rounded-xl object-cover shrink-0 bg-cream-200">
+                        <div class="min-w-0">
+                            <span class="text-[11px] font-bold uppercase text-coral-600 block">${pet.species[lang]}</span>
+                            <h4 class="font-display font-bold text-base text-cream-900 truncate group-hover:text-coral-600">${pet.name[lang]}</h4>
+                            <p class="text-xs text-cream-800/75 truncate">${pet.breed[lang]}</p>
+                            <p class="text-xs font-semibold text-cream-900 mt-0.5">${pet.age[lang]} • ${pet.genderLabel[lang]}</p>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // ==========================================
+        // 7. РЕНДЕР КАТАЛОГА И ФИЛЬТРАЦИЯ
+        // ==========================================
+        function getFilteredPets() {
+            const lang = state.lang;
+            return PETS_CATALOG.filter(pet => {
+                if (state.category !== 'all' && pet.category !== state.category) return false;
+                if (state.gender !== 'all' && pet.gender !== state.gender) return false;
+                if (state.search.trim() !== '') {
+                    const q = state.search.toLowerCase().trim();
+                    const hay = `${pet.name[lang]} ${pet.breed[lang]} ${pet.species[lang]} ${pet.age[lang]}`.toLowerCase();
+                    if (!hay.includes(q)) return false;
+                }
+                return true;
+            });
+        }
+
+        function renderCatalog() {
+            const grid = document.getElementById('pets-grid');
+            const empty = document.getElementById('empty-catalog');
+            const counter = document.getElementById('catalog-counter');
+            const resetBtn = document.getElementById('reset-filters-btn');
+            const lang = state.lang;
+            const filtered = getFilteredPets();
+
+            counter.textContent = `${I18N[lang].shownCount} ${filtered.length}`;
+            const hasActiveFilter = state.category !== 'all' || state.gender !== 'all' || state.search.trim() !== '';
+            resetBtn.classList.toggle('hidden', !hasActiveFilter);
+
+            if (filtered.length === 0) {
+                grid.innerHTML = '';
+                grid.classList.add('hidden');
+                empty.classList.remove('hidden');
+                return;
+            }
+
+            grid.classList.remove('hidden');
+            empty.classList.add('hidden');
+
+            grid.innerHTML = filtered.map(pet => {
+                const isFav = state.favorites.includes(pet.id);
+                const fallback = `https://placehold.co/600x450/EAE4DA/453F36?text=${encodeURIComponent(pet.name[lang])}`;
+
+                return `
+                    <article class="group bg-white rounded-3xl border border-cream-200 overflow-hidden shadow-card hover:shadow-soft hover:-translate-y-1 transition-all duration-300 flex flex-col">
+                        <div class="relative aspect-[4/3] bg-cream-100 overflow-hidden cursor-pointer" onclick="openPetModal('${pet.id}')">
+                            <img 
+                                src="${pet.image}" 
+                                onerror="this.src='${fallback}'"
+                                alt="${pet.name[lang]} — ${pet.breed[lang]}" 
+                                loading="lazy"
+                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                            >
+                            <span class="absolute top-3.5 left-3.5 px-3 py-1 rounded-full bg-white/95 backdrop-blur-sm text-xs font-bold text-cream-900 shadow-sm">
+                                ${pet.species[lang]}
+                            </span>
+                            <button 
+                                type="button"
+                                onclick="event.stopPropagation(); toggleFavorite('${pet.id}')"
+                                aria-label="Favorite"
+                                class="absolute top-3.5 right-3.5 w-10 h-10 rounded-full bg-white/95 backdrop-blur-sm shadow-sm flex items-center justify-center transition-transform active:scale-90 hover:bg-white"
+                            >
+                                <i data-lucide="heart" class="w-5 h-5 ${isFav ? 'fill-coral-500 text-coral-500' : 'text-cream-800'}"></i>
+                            </button>
+                            <span class="absolute bottom-3 right-3.5 px-3 py-1 rounded-xl bg-cream-900/90 text-white text-xs font-bold">
+                                ${pet.price}
+                            </span>
+                        </div>
+
+                        <div class="p-5 flex-1 flex flex-col justify-between">
+                            <div>
+                                <div class="flex items-center justify-between gap-2">
+                                    <h3 onclick="openPetModal('${pet.id}')" class="font-display font-extrabold text-xl text-cream-900 group-hover:text-coral-600 transition-colors cursor-pointer">
+                                        ${pet.name[lang]}
+                                    </h3>
+                                    <span class="text-xs font-semibold px-2.5 py-1 rounded-lg bg-cream-100 text-cream-800 shrink-0">
+                                        ${pet.age[lang]}
+                                    </span>
+                                </div>
+                                <p class="text-xs font-medium text-cream-800/75 mt-1">
+                                    ${pet.breed[lang]} • <span class="text-cream-900 font-semibold">${pet.genderLabel[lang]}</span>
+                                </p>
+                            </div>
+
+                            <div class="pt-4 mt-4 border-t border-cream-100 flex items-center gap-2">
+                                <button 
+                                    type="button" 
+                                    onclick="openPetModal('${pet.id}')"
+                                    class="flex-1 py-3 px-4 rounded-xl bg-cream-100 hover:bg-coral-500 text-cream-900 hover:text-white font-bold text-xs sm:text-sm transition-colors flex items-center justify-center gap-2"
+                                >
+                                    <span>${I18N[lang].cardBuyBtn}</span>
+                                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+                `;
+            }).join('');
+
+            lucide.createIcons({ nodes: [grid] });
+        }
+
+        // ==========================================
+        // 8. ИЗБРАННОЕ, ЗАКАЗЫ И МОДАЛЬНЫЕ ОКНА
+        // ==========================================
+        function updateCounters() {
+            document.getElementById('favorites-count').textContent = state.favorites.length;
+            const ordBadge = document.getElementById('orders-count');
+            if (state.orders.length > 0) {
+                ordBadge.textContent = state.orders.length;
+                ordBadge.classList.remove('hidden');
+            } else {
+                ordBadge.classList.add('hidden');
+            }
+        }
+
+        function toggleFavorite(petId) {
+            const idx = state.favorites.indexOf(petId);
+            const pet = PETS_CATALOG.find(p => p.id === petId);
+            if (!pet) return;
+
+            if (idx === -1) {
+                state.favorites.push(petId);
+                showToast(`${pet.name[state.lang]} → ♥`);
+            } else {
+                state.favorites.splice(idx, 1);
+            }
+            saveState();
+            updateCounters();
+            renderCatalog();
+            renderFavoritesList();
+        }
+
+        function openPetModal(petId) {
+            const pet = PETS_CATALOG.find(p => p.id === petId);
+            if (!pet) return;
+            const lang = state.lang;
+            const modal = document.getElementById('pet-modal');
+            const content = document.getElementById('pet-modal-content');
+            const fallback = `https://placehold.co/800x800/EAE4DA/453F36?text=${encodeURIComponent(pet.name[lang])}`;
+
+            const labels = {
+                ru: {
+                    species: 'Вид', breed: 'Порода', age: 'Возраст', gender: 'Пол',
+                    callDirect: 'Позвонить для приобретения:',
+                    formTitle: 'Оформить заявку на покупку / бронь',
+                    namePh: 'Ваше имя', phonePh: 'Ваш телефон (+7 ...)',
+                    submitBtn: 'Забронировать питомца',
+                    errMsg: 'Пожалуйста, укажите имя и корректный номер телефона.'
+                },
+                kz: {
+                    species: 'Түрі', breed: 'Тұқымы', age: 'Жасы', gender: 'Жынысы',
+                    callDirect: 'Сатып алу үшін қоңырау шалу:',
+                    formTitle: 'Сатып алуға / брондауға өтінім қалдыру',
+                    namePh: 'Сіздің атыңыз', phonePh: 'Телефоныңыз (+7 ...)',
+                    submitBtn: 'Жануарды брондау',
+                    errMsg: 'Атыңызды және дұрыс телефон нөмірін енгізіңіз.'
+                },
+                en: {
+                    species: 'Species', breed: 'Breed', age: 'Age', gender: 'Gender',
+                    callDirect: 'Call directly to purchase:',
+                    formTitle: 'Reserve or Purchase Pet Online',
+                    namePh: 'Your Name', phonePh: 'Phone Number (+7 ...)',
+                    submitBtn: 'Reserve This Pet',
+                    errMsg: 'Please enter your name and a valid phone number.'
+                }
+            }[lang];
+
+            content.innerHTML = `
+                <div class="lg:col-span-5 bg-cream-100 min-h-[260px] sm:min-h-[360px]">
+                    <img src="${pet.image}" onerror="this.src='${fallback}'" alt="${pet.name[lang]}" class="w-full h-full object-cover">
+                </div>
+                <div class="lg:col-span-7 p-6 sm:p-8 space-y-5">
+                    <div>
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="px-3 py-1 rounded-full bg-coral-50 text-coral-700 text-xs font-bold">${pet.species[lang]}</span>
+                            <span class="font-display font-extrabold text-2xl text-coral-600">${pet.price}</span>
+                        </div>
+                        <h2 class="font-display font-extrabold text-3xl text-cream-900 mt-2">${pet.name[lang]}</h2>
+                    </div>
+
+                    <!-- Характеристики: Порода, Возраст, Пол -->
+                    <div class="grid grid-cols-3 gap-2.5 p-3.5 rounded-2xl bg-cream-50 border border-cream-200 text-xs">
+                        <div>
+                            <span class="text-cream-800/60 block">${labels.breed}</span>
+                            <strong class="text-cream-900 font-bold block mt-0.5">${pet.breed[lang]}</strong>
+                        </div>
+                        <div>
+                            <span class="text-cream-800/60 block">${labels.age}</span>
+                            <strong class="text-cream-900 font-bold block mt-0.5">${pet.age[lang]}</strong>
+                        </div>
+                        <div>
+                            <span class="text-cream-800/60 block">${labels.gender}</span>
+                            <strong class="text-cream-900 font-bold block mt-0.5">${pet.genderLabel[lang]}</strong>
+                        </div>
+                    </div>
+
+                    <p class="text-sm text-cream-800/85 leading-relaxed">${pet.desc[lang]}</p>
+
+                    <!-- Прямой номер телефона для приобретения -->
+                    <div class="p-4 rounded-2xl bg-emerald-50 border border-emerald-100 flex flex-wrap items-center justify-between gap-3">
+                        <div>
+                            <span class="text-xs font-semibold text-emerald-700 block">${labels.callDirect}</span>
+                            <a href="tel:+77008889900" class="font-display font-extrabold text-lg text-cream-900 hover:text-emerald-700">+7 (700) 888-99-00</a>
+                        </div>
+                        <a href="tel:+77008889900" class="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold inline-flex items-center gap-1.5">
+                            <i data-lucide="phone" class="w-3.5 h-3.5"></i>
+                            <span>+7 (700) 888-99-00</span>
+                        </a>
+                    </div>
+
+                    <!-- Форма быстрого бронирования -->
+                    <form onsubmit="submitOrder(event, '${pet.id}')" class="space-y-3 pt-2 border-t border-cream-200" novalidate>
+                        <h4 class="font-display font-bold text-base text-cream-900">${labels.formTitle}</h4>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <input type="text" id="buyer-name" placeholder="${labels.namePh}" required class="w-full px-3.5 py-3 rounded-xl bg-cream-50 border border-cream-200 text-sm focus:outline-none focus:border-coral-500">
+                            <input type="tel" id="buyer-phone" placeholder="${labels.phonePh}" required class="w-full px-3.5 py-3 rounded-xl bg-cream-50 border border-cream-200 text-sm focus:outline-none focus:border-coral-500">
+                        </div>
+                        <p id="order-error" class="hidden text-xs font-bold text-coral-600">${labels.errMsg}</p>
+                        <button type="submit" class="w-full py-3.5 px-6 rounded-xl bg-coral-500 hover:bg-coral-600 text-white font-bold text-sm shadow-soft transition-all">
+                            ${labels.submitBtn}
+                        </button>
+                    </form>
+                </div>
+            `;
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+            lucide.createIcons({ nodes: [modal] });
+        }
+
+        function submitOrder(e, petId) {
+            e.preventDefault();
+            const name = document.getElementById('buyer-name').value.trim();
+            const phone = document.getElementById('buyer-phone').value.trim();
+            const errEl = document.getElementById('order-error');
+
+            if (name.length < 2 || phone.replace(/\D/g, '').length < 7) {
+                errEl.classList.remove('hidden');
+                return;
+            }
+            errEl.classList.add('hidden');
+
+            const pet = PETS_CATALOG.find(p => p.id === petId);
+            state.orders.unshift({
+                id: 'ord-' + Date.now(),
+                petId: pet.id,
+                petName: pet.name,
+                petBreed: pet.breed,
+                price: pet.price,
+                image: pet.image,
+                buyerName: name,
+                buyerPhone: phone,
+                date: new Date().toLocaleDateString()
+            });
+
+            saveState();
+            updateCounters();
+            closeModal('pet-modal');
+            showToast(`${pet.name[state.lang]} — OK! +7 (700) 888-99-00`);
+        }
+
+        function renderFavoritesList() {
+            const container = document.getElementById('favorites-list');
+            const lang = state.lang;
+            if (state.favorites.length === 0) {
+                container.innerHTML = `<p class="text-center text-sm text-cream-800/70 py-10">Список избранного пока пуст / Empty</p>`;
+                return;
+            }
+            const items = PETS_CATALOG.filter(p => state.favorites.includes(p.id));
+            container.innerHTML = items.map(pet => `
+                <div class="flex items-center justify-between gap-3 p-3.5 rounded-2xl bg-cream-50 border border-cream-200">
+                    <div class="flex items-center gap-3 cursor-pointer min-w-0" onclick="closeModal('favorites-modal'); openPetModal('${pet.id}')">
+                        <img src="${pet.image}" class="w-14 h-14 rounded-xl object-cover shrink-0">
+                        <div class="min-w-0">
+                            <h4 class="font-display font-bold text-base text-cream-900 truncate">${pet.name[lang]}</h4>
+                            <p class="text-xs text-cream-800/75 truncate">${pet.breed[lang]} • ${pet.price}</p>
+                        </div>
+                    </div>
+                    <button type="button" onclick="toggleFavorite('${pet.id}')" class="p-2 text-cream-800/60 hover:text-coral-600">
+                        <i data-lucide="trash-2" class="w-4 h-4"></i>
+                    </button>
+                </div>
+            `).join('');
+            lucide.createIcons({ nodes: [container] });
+        }
+
+        function renderOrdersList() {
+            const container = document.getElementById('orders-list');
+            const lang = state.lang;
+            if (state.orders.length === 0) {
+                container.innerHTML = `<p class="text-center text-sm text-cream-800/70 py-10">Активных покупок пока нет / No orders yet</p>`;
+                return;
+            }
+            container.innerHTML = state.orders.map(ord => `
+                <div class="p-4 rounded-2xl bg-cream-50 border border-cream-200 flex items-center justify-between gap-3">
+                    <div class="flex items-center gap-3.5">
+                        <img src="${ord.image}" class="w-14 h-14 rounded-xl object-cover shrink-0">
+                        <div>
+                            <h4 class="font-display font-bold text-base text-cream-900">${ord.petName[lang] || ord.petName.ru} (${ord.price})</h4>
+                            <p class="text-xs text-cream-800/75">${ord.buyerName} • ${ord.buyerPhone}</p>
+                            <p class="text-xs font-semibold text-emerald-700 mt-0.5">Тел. магазина: +7 (700) 888-99-00</p>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function closeModal(id) {
+            const m = document.getElementById(id);
+            m.classList.add('hidden');
+            m.classList.remove('flex');
+            document.body.style.overflow = '';
+        }
+
+        function resetAllFilters() {
+            state.category = 'all';
+            state.gender = 'all';
+            state.search = '';
+            document.getElementById('search-input').value = '';
+            document.getElementById('clear-search-btn').classList.add('hidden');
+            document.getElementById('gender-filter').value = 'all';
+            document.querySelectorAll('.cat-tab-btn').forEach(btn => {
+                if (btn.dataset.cat === 'all') {
+                    btn.className = 'cat-tab-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-cream-900 text-white transition-all';
+                } else {
+                    btn.className = 'cat-tab-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-cream-50 text-cream-800 border border-cream-200 hover:border-cream-300 transition-all';
+                }
+            });
+            renderCatalog();
+        }
+
+        // ==========================================
+        // 9. ИНИЦИАЛИЗАЦИЯ ПРИЛОЖЕНИЯ
+        // ==========================================
+        document.addEventListener('DOMContentLoaded', () => {
+            loadState();
+            updateCounters();
+            setLanguage(state.lang);
+            lucide.createIcons();
+
+            // Категории каталога
+            document.querySelectorAll('.cat-tab-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    state.category = btn.dataset.cat;
+                    document.querySelectorAll('.cat-tab-btn').forEach(b => {
+                        b.className = b === btn
+                            ? 'cat-tab-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-cream-900 text-white transition-all'
+                            : 'cat-tab-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-cream-50 text-cream-800 border border-cream-200 hover:border-cream-300 transition-all';
+                    });
+                    renderCatalog();
+                });
+            });
+
+            // Фильтр по полу
+            document.getElementById('gender-filter').addEventListener('change', (e) => {
+                state.gender = e.target.value;
+                renderCatalog();
+            });
+
+            // Поиск
+            const searchInput = document.getElementById('search-input');
+            const clearBtn = document.getElementById('clear-search-btn');
+            searchInput.addEventListener('input', (e) => {
+                state.search = e.target.value;
+                clearBtn.classList.toggle('hidden', state.search.length === 0);
+                renderCatalog();
+            });
+            clearBtn.addEventListener('click', () => {
+                searchInput.value = '';
+                state.search = '';
+                clearBtn.classList.add('hidden');
+                renderCatalog();
+            });
+
+            document.getElementById('reset-filters-btn').addEventListener('click', resetAllFilters);
+
+            // Кнопки ИИ-помощника
+            document.querySelectorAll('#ai-owner-group .ai-opt-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    state.aiOwner = btn.dataset.val;
+                    document.querySelectorAll('#ai-owner-group .ai-opt-btn').forEach(b => {
+                        b.className = b === btn
+                            ? 'ai-opt-btn py-3 px-3 rounded-xl border text-xs sm:text-sm font-semibold bg-coral-500 border-coral-500 text-white transition-all'
+                            : 'ai-opt-btn py-3 px-3 rounded-xl border text-xs sm:text-sm font-semibold bg-white border-cream-200 text-cream-800 hover:border-coral-400 transition-all';
+                    });
+                });
+            });
+
+            document.querySelectorAll('#ai-time-group .ai-opt-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    state.aiTime = btn.dataset.val;
+                    document.querySelectorAll('#ai-time-group .ai-opt-btn').forEach(b => {
+                        b.className = b === btn
+                            ? 'ai-opt-btn py-3 px-3 rounded-xl border text-xs sm:text-sm font-semibold bg-coral-500 border-coral-500 text-white transition-all'
+                            : 'ai-opt-btn py-3 px-3 rounded-xl border text-xs sm:text-sm font-semibold bg-white border-cream-200 text-cream-800 hover:border-coral-400 transition-all';
+                    });
+                });
+            });
+
+            document.getElementById('run-ai-btn').addEventListener('click', runAiAdvisor);
+
+            // Модальные окна
+            document.getElementById('open-favorites-btn').addEventListener('click', () => {
+                renderFavoritesList();
+                const m = document.getElementById('favorites-modal');
+                m.classList.remove('hidden');
+                m.classList.add('flex');
+                document.body.style.overflow = 'hidden';
+            });
+
+            document.getElementById('open-orders-btn').addEventListener('click', () => {
+                renderOrdersList();
+                const m = document.getElementById('orders-modal');
+                m.classList.remove('hidden');
+                m.classList.add('flex');
+                document.body.style.overflow = 'hidden';
+            });
+
+            document.getElementById('close-pet-modal').addEventListener('click', () => closeModal('pet-modal'));
+            document.getElementById('close-favorites-modal').addEventListener('click', () => closeModal('favorites-modal'));
+            document.getElementById('close-orders-modal').addEventListener('click', () => closeModal('orders-modal'));
+
+            ['pet-modal', 'favorites-modal', 'orders-modal'].forEach(id => {
+                document.getElementById(id).addEventListener('click', (e) => {
+                    if (e.target.id === id) closeModal(id);
+                });
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    ['pet-modal', 'favorites-modal', 'orders-modal'].forEach(closeModal);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
